@@ -1,0 +1,61 @@
+#!name=酷狗音乐·超级去广告 Pro（摇一摇加强）
+#!desc=酷狗音乐开屏/弹窗/横幅/第三方广告及摇一摇广告跳转增强拦截；保留酷狗正常播放与推荐接口
+#!author=ChatGPT
+#!homepage=https://nsloon.app/
+#!loon_version=3.5.1
+
+[Rule]
+# 酷狗广告接口
+DOMAIN,ads.service.kugou.com,REJECT
+DOMAIN,adservice.kugou.com,REJECT
+DOMAIN,adserviceretry.kugou.com,REJECT
+DOMAIN,adserviceretry.kglink.cn,REJECT
+DOMAIN,adsfileretry.service.kugou.com,REJECT
+DOMAIN,splashimgretrybssdl.cloud.kugou.com,REJECT
+
+# 腾讯/广点通广告
+DOMAIN,ad.tencentmusic.com,REJECT
+DOMAIN,adstats.tencentmusic.com,REJECT
+DOMAIN,adsmind.gdtimg.com,REJECT
+DOMAIN-SUFFIX,ugdtimg.com,REJECT
+DOMAIN-SUFFIX,gdt.qq.com,REJECT
+DOMAIN,xs.gdt.qq.com,REJECT
+DOMAIN,tdid.m.qq.com,REJECT
+DOMAIN,tangram.e.qq.com,REJECT
+DOMAIN,sdk.e.qq.com,REJECT
+DOMAIN,us.l.qq.com,REJECT
+DOMAIN,pgdt.gtimg.cn,REJECT
+
+# 京东/JAD 广告相关域名（不封整个 jd.com）
+DOMAIN,ads.jd.com,REJECT
+DOMAIN,ad.jd.com,REJECT
+DOMAIN,jadlog.com,REJECT
+DOMAIN-SUFFIX,jadlog.com,REJECT
+
+# 已观察到的酷狗启动图片 CDN：作为摇一摇/开屏增强测试项
+DOMAIN,c1img.tx.kugou.com,REJECT
+
+[Rewrite]
+# 酷狗广告 API
+^https?:\/\/gateway(?:retry)?\.kugou\.com\/ads\.gateway\/ reject-dict
+^https?:\/\/gateway(?:retry)?\.kugou\.com\/adp\/ad\/ reject-dict
+^https?:\/\/gateway(?:retry)?\.kugou\.com\/adp\/bubble\/v\d+\/song_play reject-dict
+^https?:\/\/gateway(?:retry)?\.kugou\.com\/ocean\/v\d+\/sound\/banner reject-dict
+^https?:\/\/gateway(?:retry)?\.kugou\.com\/r\/v\d+\/general\/putin\/midad reject-dict
+^https?:\/\/gateway(?:retry)?\.kugou\.com\/youth\/v\d+\/(?:ad\/play_status|start_img\/get_set|ab\/tmeab) reject-dict
+^https?:\/\/fx\.service\.kugou\.com\/mfx-kugoulive\/ad\/ reject-dict
+^https?:\/\/log\.stat\.kugou\.com\/mobile\/ad\.html reject
+^https?:\/\/adsfileretry\.service\.kugou\.com\/ reject
+^https?:\/\/adserviceretry\.kglink\.cn\/v\d+\/ reject-200
+
+# 腾讯广告
+^https?:\/\/pgdt\.gtimg\.cn\/ reject
+^https?:\/\/us\.l\.qq\.com\/exapp reject
+^https?:\/\/adsmind\.gdtimg\.com\/ads_svp_video reject
+
+# 摇一摇广告常见落地/广告跳转请求：只针对广告参数/路径，不封整个正常站点
+^https?:\/\/(?:ads?|ad|adservice|adserver)[^\/]*\/(?:click|redirect|jump|open|landing|track) reject-dict
+^https?:\/\/[^\/]*\.jd\.com\/[^?]*(?:ad|ads|jad|click|jump|redirect|landing)[^?]* reject-dict
+
+[Mitm]
+hostname = ads.service.kugou.com, adservice.kugou.com, adserviceretry.kugou.com, adserviceretry.kglink.cn, adsfileretry.service.kugou.com, splashimgretrybssdl.cloud.kugou.com, ad.tencentmusic.com, adstats.tencentmusic.com, adsmind.gdtimg.com, *.ugdtimg.com, *.gdt.qq.com, xs.gdt.qq.com, tdid.m.qq.com, tangram.e.qq.com, sdk.e.qq.com, us.l.qq.com, pgdt.gtimg.cn, gateway.kugou.com, gatewayretry.kugou.com, fx.service.kugou.com, log.stat.kugou.com, c1img.tx.kugou.com, ads.jd.com, ad.jd.com, jadlog.com

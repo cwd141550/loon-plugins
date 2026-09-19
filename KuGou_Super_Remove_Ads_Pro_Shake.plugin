@@ -50,6 +50,7 @@ DOMAIN,c1img.tx.kugou.com,REJECT
 ^https?:\/\/adserviceretry\.kglink\.cn\/v\d+\/ reject-200
 ^https?:\/\/api\.m\.jd\.com\/client\.action(?:\?.*)?$ reject-dict
 ^https?:\/\/imgcps3\.jd\.com\/ reject
+^https?:\/\/gateway\.kugou\.com\/adp\/ad\/v1\/home_combine(?:\?.*)?$ reject-dict
 
 # 腾讯广告
 ^https?:\/\/pgdt\.gtimg\.cn\/ reject
